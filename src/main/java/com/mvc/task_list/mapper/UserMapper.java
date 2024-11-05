@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import com.mvc.task_list.dto.RoleDto;
 import com.mvc.task_list.dto.UserDto;
-import com.mvc.task_list.model.Role;
 import com.mvc.task_list.model.User;
 
 public class UserMapper {
@@ -19,7 +18,7 @@ public class UserMapper {
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setPhoneNumber(user.getPhoneNumber());
-        userDto.setEnabled(user.getEnabled());
+        userDto.setEmailVerified(user.isEmailVerified());
         userDto.setCreatedDate(user.getCreatedDate());
 
         Set<RoleDto> roles = user.getRoles().stream()
@@ -28,23 +27,5 @@ public class UserMapper {
         userDto.setRoles(roles);
 
         return userDto;
-    }
-
-    public User toUser(UserDto userDto) {
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setEnabled(userDto.isEnabled());
-
-        Set<Role> roles = userDto.getRoles().stream()
-                .map(roleMapper::toRole)
-                .collect(Collectors.toSet());
-        user.setRoles(roles);
-
-        return user;
     }
 }

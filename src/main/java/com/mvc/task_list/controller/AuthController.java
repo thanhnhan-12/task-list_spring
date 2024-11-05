@@ -30,6 +30,20 @@ public class AuthController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
+    @PostMapping("/verify-email")
+    public ResponseEntity<?> verifyEmail(@Valid @RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String code = request.get("code");
+
+        boolean isVerified = authService.verifyEmail(email, code);
+
+        if (isVerified) {
+            return ResponseEntity.ok("Email verified successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification code");
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginDto loginDto) {
         Map<String, Object> authResponse = authService.loginUser(loginDto);

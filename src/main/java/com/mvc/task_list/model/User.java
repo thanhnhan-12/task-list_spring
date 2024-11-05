@@ -55,7 +55,11 @@ public class User {
     @Pattern(regexp = "^\\\\+?[0-9. ()-]{7,25}$", message = "Phone number is not valid")
     private String phoneNumber;
 
-    private Boolean enabled;
+    @Column(nullable = false)
+    private boolean isEmailVerified = false;
+
+    @Column(nullable = true)
+    private String emailVerificationCode;
 
     @CreationTimestamp
     @Column(updatable = false)

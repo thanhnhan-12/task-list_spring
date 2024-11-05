@@ -20,7 +20,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private boolean enabled;
+    private boolean isEmailVerified;
     private LocalDateTime createdDate;
     private Set<RoleDto> roles;
 }
