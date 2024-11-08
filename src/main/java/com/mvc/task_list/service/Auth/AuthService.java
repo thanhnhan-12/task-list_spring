@@ -16,4 +16,6 @@ public interface AuthService {
     boolean verifyEmail(String email, String code);
 
     Map<String, Object> loginUser(LoginDto loginDto);
+
+    void logoutUser(String token);
 }

@@ -143,4 +143,9 @@ public class AuthServiceImp implements AuthService {
 
         return response;
     }
+
+    @Override
+    public void logoutUser(String token) {
+        System.out.println("User logged out with token: " + token);
+    }
 }

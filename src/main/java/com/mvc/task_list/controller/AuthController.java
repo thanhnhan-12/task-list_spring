@@ -15,6 +15,7 @@ import com.mvc.task_list.dto.RegisterDto;
 import com.mvc.task_list.model.User;
 import com.mvc.task_list.service.Auth.AuthService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -50,4 +51,17 @@ public class AuthController {
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            authService.logoutUser(token);
+            return ResponseEntity.ok("User logged out successfully");
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid logout request");
+
+    }
 }
