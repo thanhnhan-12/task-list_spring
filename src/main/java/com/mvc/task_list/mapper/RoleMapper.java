@@ -1,8 +1,11 @@
 package com.mvc.task_list.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.mvc.task_list.dto.RoleDto;
 import com.mvc.task_list.model.Role;
 
+@Component
 public class RoleMapper {
     public RoleDto toRoleDto(Role role) {
         RoleDto roleDto = new RoleDto();

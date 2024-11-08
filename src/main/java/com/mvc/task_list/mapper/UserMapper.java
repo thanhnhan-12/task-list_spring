@@ -3,10 +3,13 @@ package com.mvc.task_list.mapper;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import com.mvc.task_list.dto.RoleDto;
 import com.mvc.task_list.dto.UserDto;
 import com.mvc.task_list.model.User;
 
+@Component
 public class UserMapper {
     private final RoleMapper roleMapper = new RoleMapper();
 
