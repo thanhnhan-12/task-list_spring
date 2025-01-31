@@ -66,7 +66,7 @@ public class AuthServiceImp implements AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Set default role for the user
-        Role userRole = roleRepository.findByName("USER")
+        Role userRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Default role not found"));
         user.getRoles().add(userRole);

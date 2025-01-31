@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String token = extractTokenFromHeader(request);
 
-        if (token != null) {
+        if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             String username = tokenProvider.extractUsername(token);
             System.out.println("Extracted username from token: " + username);
             try {
@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             } catch (Exception e) {
                 System.out.println("Error loading user details: " + e.getMessage());
-            }
+            } 
         }
 
         filterChain.doFilter(request, response);

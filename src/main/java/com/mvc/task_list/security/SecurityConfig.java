@@ -6,10 +6,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.mvc.task_list.jwt.JwtAuthenticationEntryPoint;
 import com.mvc.task_list.jwt.JwtAuthenticationFilter;
 
 @Configuration
@@ -21,14 +24,14 @@ public class SecurityConfig {
                                 .csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                                                 .requestMatchers("/api/v1/auth/**").permitAll()
-                                                .requestMatchers("/api/v1/user/**").permitAll()
-                                                .requestMatchers("/api/v1/task/**").permitAll()
+                                                .requestMatchers("/api/v1/user/**").hasAuthority("ROLE_USER")
+                                                .requestMatchers("/api/v1/task/**").hasAuthority("ROLE_USER")
                                                 .anyRequest().authenticated())
-                                .formLogin(formLogin -> formLogin
-                                                .loginPage("/login")
-                                                .permitAll())
-                                .logout(logout -> logout.permitAll());
-
+                                .exceptionHandling(exception -> exception
+                                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
                 return http.build();
         }
 

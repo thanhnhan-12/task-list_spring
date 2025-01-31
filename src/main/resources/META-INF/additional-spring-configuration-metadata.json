@@ -1,5 +1,12 @@
-{"properties": [{
-  "name": "mail.from",
-  "type": "java.lang.String",
-  "description": "A description for 'mail.from'"
-}]}
+{"properties": [
+  {
+    "name": "mail.from",
+    "type": "java.lang.String",
+    "description": "A description for 'mail.from'"
+  },
+  {
+    "name": "jwt.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.secret'"
+  }
+]}

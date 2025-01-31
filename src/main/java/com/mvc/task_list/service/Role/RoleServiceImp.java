@@ -20,7 +20,7 @@ public class RoleServiceImp implements RoleService {
     @PostConstruct
     @Override
     public void initializeRoles() {
-        List<String> roles = Arrays.asList("ADMIN", "USER");
+        List<String> roles = Arrays.asList("ROLE_ADMIN", "ROLE_USER");
 
         for (String roleName : roles) {
             if (roleRepository.findByName(roleName) == null) {
@@ -30,5 +30,4 @@ public class RoleServiceImp implements RoleService {
             }
         }
     }
-
 }
