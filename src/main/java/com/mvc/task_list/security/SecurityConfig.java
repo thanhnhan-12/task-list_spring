@@ -18,11 +18,19 @@ import com.mvc.task_list.jwt.JwtAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+        private static final String[] SWAGGER_WHITELIST = {
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+        };
+
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                                                .requestMatchers(SWAGGER_WHITELIST).permitAll()
                                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                                 .requestMatchers("/api/v1/user/**").hasAuthority("ROLE_USER")
                                                 .requestMatchers("/api/v1/task/**").hasAuthority("ROLE_USER")

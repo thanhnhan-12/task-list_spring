@@ -1,6 +1,7 @@
 package com.mvc.task_list.jwt;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,11 +23,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    private static final List<String> SWAGGER_WHITELIST = List.of(
+            "/v3/api-docs",
+            "/swagger-ui",
+            "/swagger-ui.html");
+
     @SuppressWarnings("null")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String token = extractTokenFromHeader(request);
+
+        String requestPath = request.getServletPath();
+
+        if (SWAGGER_WHITELIST.stream().anyMatch(requestPath::startsWith)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             String username = tokenProvider.extractUsername(token);
@@ -47,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             } catch (Exception e) {
                 System.out.println("Error loading user details: " + e.getMessage());
-            } 
+            }
         }
 
         filterChain.doFilter(request, response);
